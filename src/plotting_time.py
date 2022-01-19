@@ -31,7 +31,7 @@ def load_image_dataset(path, treshold=170):
             y.append(i)
             img_array = cv2.imread(os.path.join(dir_path, img))
             img_array = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
-            tresh, img_array = cv2.threshold(
+            thresh, img_array = cv2.threshold(
                 img_array, treshold, 255, cv2.THRESH_BINARY)
             X.append(img_array)
     X = np.array(X)
