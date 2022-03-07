@@ -1,10 +1,10 @@
 import os
-import matplotlib.pyplot as plt
+from matplotlib import figure
 import cv2
 import numpy as np
 
 
-def create_image_dataset(df, path, dpi, img_width=432, img_height=288, target='target'):
+def create_image_dataset(df, path, dpi, img_width=432, img_height=288, target='target', verbose=True):
     X = df.drop(columns=[target]).values
     y = df[target].values
     if not os.path.isdir(path):
@@ -14,10 +14,12 @@ def create_image_dataset(df, path, dpi, img_width=432, img_height=288, target='t
         if not os.path.isdir(image_path):
             os.mkdir(image_path)
         image_path = os.path.join(image_path, str(i) + '.png')
-        plt.figure(figsize=(img_width / dpi, img_height / dpi))
-        plt.plot(X[i])
-        plt.savefig(image_path, dpi=dpi)
-        plt.close()
+        fig = figure.Figure(figsize=(img_width / dpi, img_height / dpi))
+        ax = fig.subplots(1)
+        ax.plot(X[i])
+        fig.savefig(image_path, dpi=dpi)
+        if verbose:
+            print(f'[{i+1}/{len(X)}] image generated')
 
 
 def load_image_dataset(path, treshold=170):
